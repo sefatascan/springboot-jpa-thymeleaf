@@ -1,0 +1,16 @@
+	1--> Model oluştur
+	2--> Repoları oluştur
+	3--> Service katmanı oluştur
+	4--> H2 config
+	5--> Controller oluştur
+	6--> html viewlar
+	
+	<Deps>
+	-- Web
+	-- Jpa
+	-- H2
+	-- Thymeleaf
+	-- Lombok
+	-- Devtools
+	-- Bootstrap
+	-- Jquery

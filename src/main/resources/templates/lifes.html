@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Taraftar Anket Sonuçları</title>
+<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link th:href="@{/css/app.css}" rel="stylesheet">
+	<script type="text/javascript" src="webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="text-center">
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<header class="masthead mb-auto">
+		<div class="container dd inner">
+			<h3>Anket A.Ş.</h3>
+		</div>
+		</header>
+
+		<main role="main" class="inner cover">
+		<div class="container">
+			<h1 class="display-5 text-warning font-weight-bold">Yaşam
+				Memnuniyet Anket Sonuçları</h1>
+			<div class="text-left">
+				<a href="/" class="btn btn-light btn-sm">&laquo Ana Menu</a>
+				<table class="table table-borderless table-sm">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">No</th>
+							<th scope="col">İsim</th>
+							<th scope="col">Soyisim</th>
+							<th scope="col">Doğum Tarihi</th>
+							<th scope="col">Cinsiyet</th>
+							<th scope="col">Mutluluk Oranı</th>
+							<th scope="col">Hobileri</th>
+							<th scope="col">Fobileri</th>
+							<th scope="col">Anketör</th>
+							<th scope="col">Açıklama</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="life:${lifes}">
+							<th scope="row" th:text="${life.id}">Anket Nu</th>
+							<th scope="col" th:text="${life.name}">İsim</th>
+							<th scope="col" th:text="${life.surname}">Soyisim</th>
+							<th scope="col"
+								th:text="${#dates.format(life.birthday, 'dd-MM-yyyy')}">Doğum
+								Tarihi</th>
+							<th scope="col" th:if="${life.gender==0}" th:text="Kadın">Cinsiyet</th>
+							<th scope="col" th:if="${life.gender==1}" th:text="Erkek">Cinsiyet</th>
+							<th scope="col" th:text="${life.lifeQuality}">Mutluluk Oranı</th>
+							<th scope="col" th:text="${life.happiness}">Hobiler</th>
+							<th scope="col" th:text="${life.unhappiness}">Fobiler</th>
+							<th scope="col"
+								th:text="${life.pollsterName + ' ' + life.pollsterSurname}">Anketör</th>
+							<th scope="col" th:text="${life.explanation}">Açıklama</th>
+							<th scope="col"><a class="btn btn-warning btn-sm editButton"
+								data-toggle="modal" data-target="#lifeModal" role="button"
+								th:href="@{/findLife/(id=${life.id})}">Düzenle</a></th>
+							<th scope="col"><a
+								class="btn btn-danger btn-sm deleteButton" data-toggle="modal"
+								data-target="#controlModal" role="button"
+								th:href="@{/deleteLifes/(id=${life.id})}">Sil</a></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- Modal -- Yaşam Ankati -->
+			<div class="modal fade" id="lifeModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form th:action="@{/saveLife}" method="put">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title text-dark" id="exampleModalLabel">Yaşam
+									Kalitesi Anketi Oluştur</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="formId">Id</label> <input type="text"
+										class="form-control" id="formId" name="id">
+								</div>
+								<div class="form-group">
+									<label for="formName">İsim</label> <input type="text"
+										class="form-control" id="formName" name="name">
+								</div>
+								<div class="form-group">
+									<label for="formSurname">Soyisim</label> <input type="text"
+										class="form-control" id="formSurname" name="surname">
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<label>Cinsiyet</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name="gender"
+												id="formGender" value=1 checked> <label
+												class="form-check-label" for="formGender"> Erkek </label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name="gender"
+												id="formGender" value=0> <label
+												class="form-check-label" for="formGender"> Kadın </label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="formBirthday">Doğum Tarihi</label> <input
+										type="date" class="form-control" id="formBirthday"
+										min="1900-01-01" max="2100-12-31" name="birthday">
+								</div>
+								<div class="form-group">
+									<label for="formLifeQuality">Mutluluk oranınız</label> <select
+										class="form-control" id="formLifeQuality" name="lifeQuality">
+										<option value=1>1</option>
+										<option value=2>2</option>
+										<option value=3>3</option>
+										<option value=4>4</option>
+										<option value=5>5</option>
+										<option value=6>6</option>
+										<option value=7>7</option>
+										<option value=8>8</option>
+										<option value=9>9</option>
+										<option value=10>10</option>
+									</select>
+								</div>
+								<div class="form-group">
+									<label for="formHappiness">Sizi en mutlu eden şeyler</label>
+									<textarea class="form-control" id="formHappiness" rows="3"
+										name="happiness"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="formUnhappiness">Sizi en mutsuz eden şeyler</label>
+									<textarea class="form-control" id="formUnhappiness" rows="3"
+										name="unhappiness"></textarea>
+								</div>
+								<div class="form-group">
+									<label for="formExplanation">Açıklama</label>
+									<textarea class="form-control" id="formExplanation" rows="3"
+										name="explanation"></textarea>
+								</div>
+								<div class="row">
+									<div class="col form-group">
+										<label for="formPollsterName">Anketör İsmi</label> <input
+											type="text" class="form-control" id="formPollsterName"
+											name="pollsterName">
+									</div>
+									<div class="col form-group">
+										<label for="formPollsterSurname">Anketör Soyismi</label> <input
+											type="text" class="form-control" id="formPollsterSurname"
+											name="pollsterSurname">
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Kapat</button>
+								<button type="submit" class="btn btn-primary">Kaydet</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- control Modal -->
+			<div class="modal fade" id="controlModal" tabindex="-1" role="dialog">
+
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Silmek istediğinize emin misiniz?</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						<div class="modal-footer">
+							<a href="" class="btn btn-danger" id="deleteId">Evet, Sil.</a>
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Hayır</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		</main>
+
+		<footer class="mastfoot mt-auto">
+		<div class="inner">
+			<p class="p-footer">
+				created using <a href="https://getbootstrap.com/">Bootstrap</a>, by
+				<a href="https://github.com/sefatascan">@sefatascan</a>.
+			</p>
+		</div>
+		</footer>
+	</div>
+	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+        $(document).ready(function () {
+            $('.table .editButton').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (life, status) {
+                    $('#formId').val(life.id);
+                    $('#formName').val(life.name);
+                    $('#formSurname').val(life.surname);
+                    $('#formGender').val(life.gender);
+                    $('#formBirthday').val(life.birthday);
+                    $('#formLifeQuality').val(life.lifeQuality);
+                    $('#formHappiness').val(life.happiness);
+                    $('#formUnhappiness').val(life.unhappiness);
+                    $('#formExplanation').val(life.explanation);
+                    $('#formPollsterName').val(life.pollsterName);
+                    $('#formPollsterSurname').val(life.pollsterSurname);
+
+                });
+                $('#lifeModal').modal();
+            });
+            $('.table .deleteButton').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $('#controlModal #deleteId').attr('href', href);
+
+                $('#controlModal').modal();
+            });
+        });
+
+    </script>
+</body>
+
+</html>

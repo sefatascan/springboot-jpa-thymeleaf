@@ -1,0 +1,217 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Taraftar Anket Sonuçları</title>
+<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link th:href="@{/css/app.css}" rel="stylesheet">
+	<script type="text/javascript" src="webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="text-center">
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<header class="masthead mb-auto">
+		<div class="container dd inner">
+			<h3>Anket A.Ş.</h3>
+		</div>
+		</header>
+
+		<main role="main" class="inner cover">
+		<div class="container">
+			<h1 class="display-5 text-warning font-weight-bold">Taraftar
+				Anket Sonuçları</h1>
+			<div class="text-left">
+				<a href="/" class="btn btn-light btn-sm">&laquo Ana Menu</a>
+				<table class="table table-borderless table-sm">
+					<thead class="thead-dark">
+						<tr>
+							<th scope="col">No</th>
+							<th scope="col">İsim</th>
+							<th scope="col">Soyisim</th>
+							<th scope="col">Doğum Tarihi</th>
+							<th scope="col">Cinsiyet</th>
+							<th scope="col">Takımı</th>
+							<th scope="col">Anketör</th>
+							<th scope="col">Açıklama</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="fan:${fans}">
+							<th scope="row" th:text="${fan.id}">Anket Nu</th>
+							<th scope="col" th:text="${fan.name}">İsim</th>
+							<th scope="col" th:text="${fan.surname}">Soyisim</th>
+							<th scope="col"
+								th:text="${#dates.format(fan.birthday, 'dd-MM-yyyy')}">Doğum
+								Tarihi</th>
+							<th scope="col" th:if="${fan.gender==0}" th:text="Kadın">Cinsiyet</th>
+							<th scope="col" th:if="${fan.gender==1}" th:text="Erkek">Cinsiyet</th>
+							<th scope="col" th:text="${fan.chosenTeam}">Takımı</th>
+							<th scope="col"
+								th:text="${fan.pollsterName + ' ' + fan.pollsterSurname}">Anketör</th>
+							<th scope="col" th:text="${fan.explanation}">Açıklama</th>
+							<th scope="col"><a class="btn btn-warning btn-sm editButton"
+								data-toggle="modal" data-target="#fansModal"
+								th:href="@{/findFan/(id=${fan.id})}">Düzenle</a></th>
+							<th scope="col"><a
+								class="btn btn-danger btn-sm deleteButton" data-toggle="modal"
+								data-target="#controlModal"
+								th:href="@{/deleteFans/(id=${fan.id})}">Sil</a></th>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<!-- Modal -- Taraftar Anketi -->
+			<div class="modal fade" id="fansModal" tabindex="-1" role="dialog"
+				aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<form th:action="@{/saveFans}" method="put">
+					<div class="modal-dialog" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h5 class="modal-title text-dark" id="exampleModalLabel">Taraftar
+									Anketi Oluştur</h5>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</div>
+							<div class="modal-body">
+								<div class="form-group">
+									<label for="formId">Id</label> <input type="text"
+										class="form-control" id="formId" name="id">
+								</div>
+								<div class="form-group">
+									<label for="formName">İsim</label> <input type="text"
+										class="form-control" id="formName" name="name">
+								</div>
+								<div class="form-group">
+									<label for="formSurname">Soyisim</label> <input type="text"
+										class="form-control" id="formSurname" name="surname">
+								</div>
+								<div class="form-group">
+									<div class="row">
+										<div class="col">
+											<label>Cinsiyet</label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name="gender"
+												id="formGender" value=1 checked> <label
+												class="form-check-label" for="formGender1"> Erkek </label>
+										</div>
+										<div class="col">
+											<input class="form-check-input" type="radio" name="gender"
+												id="formGender" value=0> <label
+												class="form-check-label" for="formGender1"> Kadın </label>
+										</div>
+									</div>
+								</div>
+								<div class="form-group">
+									<label for="formBirthday">Doğum Tarihi</label> <input
+										type="date" class="form-control" id="formBirthday"
+										min="1900-01-01" max="2100-12-31" name="birthday">
+								</div>
+								<div class="form-group">
+									<label for="formChosenTeam">Destek verdiğiniz futbol
+										takımı</label> <input type="text" class="form-control"
+										id="formChosenTeam" name="chosenTeam">
+								</div>
+								<div class="form-group">
+									<label for="formExplanation">Açıklama</label>
+									<textarea class="form-control" id="formExplanation" rows="3"
+										name="explanation"></textarea>
+								</div>
+								<div class="row">
+									<div class="col form-group">
+										<label for="formPollsterName">Anketör İsmi</label> <input
+											type="text" class="form-control" id="formPollsterName"
+											name="pollsterName">
+									</div>
+									<div class="col form-group">
+										<label for="formPollsterSurname">Anketör Soyismi</label> <input
+											type="text" class="form-control" id="formPollsterSurname"
+											name="pollsterSurname">
+									</div>
+								</div>
+
+							</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-secondary"
+									data-dismiss="modal">Kapat</button>
+								<button type="submit" class="btn btn-primary">Kaydet</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- control Modal -->
+			<div class="modal fade" id="controlModal" tabindex="-1" role="dialog">
+
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">Silmek istediğinize emin misiniz?</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+
+						<div class="modal-footer">
+							<a href="" class="btn btn-danger" id="deleteId">Evet, Sil.</a>
+							<button type="button" class="btn btn-dark" data-dismiss="modal">Hayır</button>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		</main>
+
+		<footer class="mastfoot mt-auto">
+		<div class="inner">
+			<p class="p-footer">
+				created using <a href="https://getbootstrap.com/">Bootstrap</a>, by
+				<a href="https://github.com/sefatascan">@sefatascan</a>.
+			</p>
+		</div>
+		</footer>
+	</div>
+
+	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+        $(document).ready(function () {
+            $('.table .editButton').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $.get(href, function (fan, status) {
+                    $('#formId').val(fan.id);
+                    $('#formName').val(fan.name);
+                    $('#formSurname').val(fan.surname);
+                    $('#formGender').val(fan.gender);
+                    $('#formBirthday').val(fan.birthday);
+                    $('#formChosenTeam').val(fan.chosenTeam);
+                    $('#formExplanation').val(fan.explanation);
+                    $('#formPollsterName').val(fan.pollsterName);
+                    $('#formPollsterSurname').val(fan.pollsterSurname);
+
+                });
+                $('#fansModal').modal();
+            });
+            $('.table .deleteButton').on('click', function (event) {
+                event.preventDefault();
+                var href = $(this).attr('href');
+                $('#controlModal #deleteId').attr('href', href);
+
+                $('#controlModal').modal();
+            });
+        });
+    </script>
+</body>
+
+</html>

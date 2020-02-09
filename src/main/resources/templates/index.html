@@ -1,0 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Anket A.Ş.</title>
+<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link th:href="@{/css/app.css}" rel="stylesheet">
+	<script type="text/javascript" src="webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="text-center">
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<header class="masthead mb-auto">
+		<div class="container dd inner">
+			<h3>Anket A.Ş.</h3>
+		</div>
+		</header>
+
+		<main role="main" class="inner cover">
+		<div class="jumbotron">
+			<div class="container">
+				<h1 class="display-4 text-dark font-weight-bold">Bir anket seç!</h1>
+				<div class="row">
+					<div class="col text-right">
+						<a class="btn btn-danger btn-lg w-50" role="button"
+							data-toggle="modal" data-target="#fansModal">Taraftar Anketi
+							&raquo;</a>
+					</div>
+					<div class="col text-left">
+						<a class="btn btn-success btn-lg w-50" role="button"
+							data-toggle="modal" data-target="#lifeModal">Yaşam Anketi
+							&raquo;</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		<div class="container">
+			<a class="btn btn-orange btn-lg w-75" data-toggle="collapse"
+				href="#collapseExample" role="button">Anket Sonuçları </a>
+			<div class="collapse" id="collapseExample">
+				<div class="card card-body">
+					<div class="row">
+						<div class="col text-right">
+							<a class="btn btn-danger btn-sm w-50" role="button"
+								th:href="@{/fans}">Taraftar Anket Sonuçları &raquo;</a>
+						</div>
+						<div class="col text-left">
+							<a class="btn btn-success btn-sm w-50" role="button"
+								th:href="@{/lifes}">Yaşam Anket Sonuçları &raquo;</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Modal -- Taraftar Anketi -->
+		<div class="modal fade" id="fansModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form th:action="@{/saveFans}" method="post">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-dark" id="exampleModalLabel">Taraftar
+								Anketi Oluştur</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="form-group">
+								<label for="formName">İsim</label> <input type="text"
+									class="form-control" id="formName" name="name">
+							</div>
+							<div class="form-group">
+								<label for="formSurname">Soyisim</label> <input type="text"
+									class="form-control" id="formSurname" name="surname">
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col">
+										<label>Cinsiyet</label>
+									</div>
+									<div class="col">
+										<input class="form-check-input" type="radio" name="gender"
+											id="formGender1" value=1 checked> <label
+											class="form-check-label" for="formGender1"> Erkek </label>
+									</div>
+									<div class="col">
+										<input class="form-check-input" type="radio" name="gender"
+											id="formGender1" value=0> <label
+											class="form-check-label" for="formGender1"> Kadın </label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="formBirthday">Doğum Tarihi</label> <input
+									type="date" class="form-control" id="formBirthday"
+									min="1900-01-01" max="2100-12-31" name="birthday">
+							</div>
+							<div class="form-group">
+								<label for="formChosenTeam">Destek verdiğiniz futbol
+									takımı</label> <input type="text" class="form-control"
+									id="formChosenTeam" name="chosenTeam">
+							</div>
+							<div class="form-group">
+								<label for="formExplanation">Açıklama</label>
+								<textarea class="form-control" id="formExplanation" rows="3"
+									name="explanation"></textarea>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label for="formPollsterName">Anketör İsmi</label> <input
+										type="text" class="form-control" id="formPollsterName"
+										name="pollsterName">
+								</div>
+								<div class="col form-group">
+									<label for="formPollsterSurname">Anketör Soyismi</label> <input
+										type="text" class="form-control" id="formPollsterSurname"
+										name="pollsterSurname">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Kapat</button>
+							<button type="submit" class="btn btn-primary">Kaydet</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		<!-- Modal -- Yaşam Ankati -->
+		<div class="modal fade" id="lifeModal" tabindex="-1" role="dialog"
+			aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<form th:action="@{/saveLife}" method="post">
+				<div class="modal-dialog" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title text-dark" id="exampleModalLabel">Yaşam
+								Kalitesi Anketi Oluştur</h5>
+							<button type="button" class="close" data-dismiss="modal"
+								aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+
+							<div class="form-group">
+								<label for="formName">İsim</label> <input type="text"
+									class="form-control" id="formName" name="name">
+							</div>
+							<div class="form-group">
+								<label for="formSurname">Soyisim</label> <input type="text"
+									class="form-control" id="formSurname" name="surname">
+							</div>
+							<div class="form-group">
+								<div class="row">
+									<div class="col">
+										<label>Cinsiyet</label>
+									</div>
+									<div class="col">
+										<input class="form-check-input" type="radio" name="gender"
+											id="formGender1" value=1 checked> <label
+											class="form-check-label" for="formGender1"> Erkek </label>
+									</div>
+									<div class="col">
+										<input class="form-check-input" type="radio" name="gender"
+											id="formGender1" value=0> <label
+											class="form-check-label" for="formGender1"> Kadın </label>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="formBirthday">Doğum Tarihi</label> <input
+									type="date" class="form-control" id="formBirthday"
+									min="1900-01-01" max="2100-12-31" name="birthday">
+							</div>
+							<div class="form-group">
+								<label for="formLifeQuality">Mutluluk oranınız</label> <select
+									class="form-control" id="formLifeQuality" name="lifeQuality">
+									<option value=1>1</option>
+									<option value=2>2</option>
+									<option value=3>3</option>
+									<option value=4>4</option>
+									<option value=5>5</option>
+									<option value=6>6</option>
+									<option value=7>7</option>
+									<option value=8>8</option>
+									<option value=9>9</option>
+									<option value=10>10</option>
+								</select>
+							</div>
+							<div class="form-group">
+								<label for="formHappiness">Sizi en mutlu eden şeyler</label>
+								<textarea class="form-control" id="formHappiness" rows="3"
+									name="happiness"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="formUnhappiness">Sizi en mutsuz eden şeyler</label>
+								<textarea class="form-control" id="formUnhappiness" rows="3"
+									name="unhappiness"></textarea>
+							</div>
+							<div class="form-group">
+								<label for="formExplanation">Açıklama</label>
+								<textarea class="form-control" id="formExplanation" rows="3"
+									name="explanation"></textarea>
+							</div>
+							<div class="row">
+								<div class="col form-group">
+									<label for="formPollsterName">Anketör İsmi</label> <input
+										type="text" class="form-control" id="formPollsterName"
+										name="pollsterName">
+								</div>
+								<div class="col form-group">
+									<label for="formPollsterSurname">Anketör Soyismi</label> <input
+										type="text" class="form-control" id="formPollsterSurname"
+										name="pollsterSurname">
+								</div>
+							</div>
+
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary"
+								data-dismiss="modal">Kapat</button>
+							<button type="submit" class="btn btn-primary">Kaydet</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+
+		</main>
+
+		<footer class="mastfoot mt-auto">
+		<div class="inner">
+			<p class="p-footer">
+				created using <a href="https://getbootstrap.com/">Bootstrap</a>, by
+				<a href="https://github.com/sefatascan">@sefatascan</a>.
+			</p>
+		</div>
+		</footer>
+	</div>
+
+</body>
+
+</html>
