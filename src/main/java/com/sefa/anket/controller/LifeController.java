@@ -43,5 +43,12 @@ public class LifeController {
 		lifeService.deleteLifes(id);
 		return "redirect:/lifes";
 	}
+	@GetMapping("/statisticLife")
+	public String getStatistic(Model model) {
+		String s = lifeService.getLifeStatistic();
+		model.addAttribute("statistic", s);
+		return "statisticLife";
+
+	}
 
 }

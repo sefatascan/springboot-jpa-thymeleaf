@@ -1,14 +1,12 @@
 package com.sefa.anket.controller;
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -44,6 +42,12 @@ public class TeamController {
 	public String deleteFans(Integer id) {
 		teamService.deleteFans(id);
 		return "redirect:/fans";
+	}
+	@GetMapping("/statisticTeam")
+	public String getHashtable(Model model) {
+		model.addAttribute("statistics", teamService.creatHashtable());
+		return "statisticTeam";
+
 	}
 
 }

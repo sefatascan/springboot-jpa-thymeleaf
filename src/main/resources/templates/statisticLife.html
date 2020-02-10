@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+          "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Taraftar Anket Sonuçları</title>
+<link href="webjars/bootstrap/4.3.1/css/bootstrap.min.css"
+	rel="stylesheet" />
+<link th:href="@{/css/app.css}" rel="stylesheet">
+	<script type="text/javascript" src="webjars/jquery/3.0.0/jquery.min.js"></script>
+	<script type="text/javascript"
+		src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</head>
+
+<body class="text-center">
+	<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+		<header class="masthead mb-auto">
+		<div class="container dd inner">
+			<h3>Anket A.Ş.</h3>
+		</div>
+		</header>
+
+		<main role="main" class="inner cover">
+		<div class="container">
+			<h1 class="display-5 text-warning font-weight-bold">Anketçilerin hayatlarından memnuniyet oranı</h1>
+			<h1 class="text-danger  font-weight-bold" th:text="${statistic}">H</h1>
+
+		</div>
+		</main>
+
+		<footer class="mastfoot mt-auto">
+		<div class="inner">
+			<p class="p-footer">
+				created using <a href="https://getbootstrap.com/">Bootstrap</a>, by
+				<a href="https://github.com/sefatascan">@sefatascan</a>.
+			</p>
+		</div>
+		</footer>
+	</div>
+
+	<script src="webjars/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src="webjars/jquery/3.0.0/jquery.min.js"></script>
+
+</body>
+
+</html>
